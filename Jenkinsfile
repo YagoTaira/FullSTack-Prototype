@@ -31,20 +31,25 @@ pipeline {
         stage('Build Docker Images') {
             steps {
                 script {
-                    docker.build("backend-app:latest", "./backend")
-                    docker.build("frontend-app:latest", "./frontend")
+                    // Build Backend Image
+                    backendImage = docker.build("${DOCKERHUB_USERNAME}/backend-app:${env.BUILD_NUMBER}", "./backend")
+
+                    // Build Frontend Image
+                    frontendImage = docker.build("${DOCKERHUB_USERNAME}/frontend-app:${env.BUILD_NUMBER}", "./frontend")
                 }
             }
         }
         stage('Push Images to Registry') {
             steps {
                 script {
-                    docker.withRegistry("https://${DOCKER_REGISTRY}", "${DOCKERHUB_CREDENTIALS}") {
+                    docker.withRegistry('', "${DOCKERHUB_CREDENTIALS}") {
                         // Push Backend Image
-                        docker.image("${DOCKERHUB_USERNAME}/backend-app:${env.BUILD_NUMBER}").push('latest')
+                        backendImage.push()
+                        backendImage.push('latest')
 
                         // Push Frontend Image
-                        docker.image("${DOCKERHUB_USERNAME}/frontend-app:${env.BUILD_NUMBER}").push('latest')
+                        frontendImage.push()
+                        frontendImage.push('latest')
                     }
                 }
             }
