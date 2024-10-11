@@ -32,7 +32,7 @@ pipeline {
             steps {
                 script {
                     docker.build("backend-app:latest", "./backend")
-                    docker.build("frontedn-app:latest", "./frontend")
+                    docker.build("frontend-app:latest", "./frontend")
                 }
             }
         }
