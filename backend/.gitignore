@@ -34,3 +34,6 @@ build/
 
 # Ignore local application properties
 src/main/resources/application.properties
+
+# Ignore mysql credentials
+mysql-secret.yml
