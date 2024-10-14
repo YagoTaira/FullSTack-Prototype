@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: backend
-          image: backend-app:latest
+          image: yagotaira/backend-app:latest
           ports:
             - containerPort: 8081
           env:
